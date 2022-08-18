@@ -1,0 +1,55 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[GroupsJoinedMembers_Insert]    Script Date: 8/17/2022 10:54:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Larry Lemons
+-- Create date: 1 July 2022
+-- Description:	Insert for Groups table 
+-- Code Reviewer:
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: 
+-- Note:
+
+---Truncate table dbo.Groups
+
+
+-- =============================================
+ALTER   PROC [dbo].[GroupsJoinedMembers_Insert]  
+							@UserId int 
+						   ,@GroupId int 
+	       
+AS
+
+/* ---------TEST CODE------------
+
+DECLARE	   @UserId int = 2
+		  ,@GroupId int = 1
+
+EXECUTE dbo.GroupsJoinedMembers_Insert 
+							@UserId
+						   ,@GroupId
+
+SELECT *
+FROM dbo.GroupsJoinedMembers
+
+truncate table dbo.GroupsJoinedMembers 
+
+*/
+
+BEGIN
+
+INSERT INTO [dbo].[GroupsJoinedMembers]
+			([UserId]
+			,[GroupId])
+
+	 VALUES
+	        (@UserId
+		    ,@GroupId)
+
+END
