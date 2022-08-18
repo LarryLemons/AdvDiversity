@@ -1,0 +1,74 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[Groups_Update]    Script Date: 8/17/2022 10:52:06 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Larry Lemons
+-- Create date: 2 July 2022
+-- Description:	UPDATE for Groups table 
+-- Code Reviewer: Guido Gredo
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: 
+-- Note:
+
+---Truncate table dbo.Groups
+
+
+-- =============================================
+ALTER   PROC [dbo].[Groups_Update]
+			 @Id int 
+			,@GroupTypeId int
+			,@Name nvarchar(200)
+			,@Headline nvarchar(200)
+			,@Description nvarchar(max)
+			,@Logo nvarchar(255)
+			,@CreatedById int
+		
+
+AS
+
+/*---------TEST CODE---------
+
+	DECLARE @Id int = 14;
+	DECLARE	@GroupTypeId int = 1
+			,@Name nvarchar(200) = 'Test Update Organization'
+			,@Headline nvarchar(200) = 'Update We are the organization'
+			,@Description nvarchar(max) = 'We help people help people'
+			,@Logo nvarchar(200) ='Help People Help Themselves'		
+			,@CreatedById int = 1
+
+	EXECUTE dbo.Groups_Update
+			 @Id
+			,@GroupTypeId 
+			,@Name
+			,@Headline
+			,@Description
+			,@Logo
+			,@CreatedById
+
+	SELECT *
+	FROM dbo.Groups
+	WHERE Id = @Id 
+
+*/---------TEST CODE---------
+
+BEGIN
+
+UPDATE     [dbo].[Groups]
+
+     SET
+			 [GroupTypeId] = @GroupTypeId
+			,[Name] = @Name
+			,[Headline] = @Headline
+			,[Description] = @Description
+			,[Logo] = @Logo
+			,[CreatedById] = @CreatedById
+
+WHERE Id = @Id
+
+END
