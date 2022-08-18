@@ -1,0 +1,56 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[Groups_SelectById]    Script Date: 8/17/2022 10:49:28 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- Author:		Larry Lemons
+-- Create date: 2 July 2022
+-- Description:	Select by Id for Groups table 
+-- Code Reviewer: Guido Greco
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: 
+-- Note:
+
+ALTER PROC [dbo].[Groups_SelectById]
+									@Id int
+as
+
+/*
+Declare @Id int = 14
+
+Execute dbo.Groups_SelectById
+						@Id 
+
+						Select * from dbo.groups
+						WHERE @Id = Id
+*/
+
+BEGIN
+
+SELECT g.[Id]
+      ,g.[Name]
+      ,[Headline]
+      ,[Description]
+      ,[Logo]
+	    ,[CreatedById]
+      ,[DateCreated]
+      ,[DateModified]
+      ,gt.[Id] as GroupTypeId
+      ,gt.[Name] as GroupTypeName
+
+
+FROM [dbo].[Groups] as g
+
+inner join dbo.GroupTypes as gt 
+on g.GroupTypeId = gt.Id
+
+inner join dbo.Users as u 
+on g.CreatedById = u.Id
+
+WHERE @Id = g.Id
+
+END
