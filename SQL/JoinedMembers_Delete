@@ -1,0 +1,61 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[GroupsJoinedMembers_Delete]    Script Date: 8/17/2022 10:52:59 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Larry Lemons
+-- Create date: 1 July 2022
+-- Description:	Insert for Groups table 
+-- Code Reviewer:
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: 
+-- Note:
+
+--truncate table dbo.GroupsJoinedMembers
+
+-- =============================================
+ALTER   PROC [dbo].[GroupsJoinedMembers_Delete]  
+							  @UserId int 
+						   ,@GroupId int 
+	       
+AS
+
+/* ---------TEST CODE------------
+
+DECLARE
+		  @GroupId int = 164
+		 ,@UserId int = 107
+
+EXECUTE dbo.GroupsJoinedMembers_Delete 						
+						    @GroupId	
+						   ,@UserId
+
+SELECT *
+FROM dbo.GroupsJoinedMembers
+
+*/
+
+BEGIN
+
+	Declare @Count int = 0;
+
+	Select @Count = count(1)
+	From [dbo].[GroupsJoinedMembers]
+	Where @UserId = UserId and @GroupId = GroupId
+
+	If (@Count > 0)
+	Begin
+		DELETE 
+		FROM [dbo].[GroupsJoinedMembers] 
+		WHERE  @UserId = UserId and @GroupId = GroupId
+	End
+
+	else 
+		THROW 70001, 'Not found', 1;
+
+END
