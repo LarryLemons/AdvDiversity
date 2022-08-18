@@ -1,0 +1,80 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[Groups_Insert]    Script Date: 8/17/2022 10:42:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Larry Lemons
+-- Create date: 1 July 2022
+-- Description:	Insert for Groups table 
+-- Code Reviewer:
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: 
+-- Note:
+
+---Truncate table dbo.Groups
+
+
+-- =============================================
+ALTER PROC [dbo].[Groups_Insert]
+			@Id int OUTPUT
+			,@GroupTypeId int
+			,@Name nvarchar(200)
+			,@Headline nvarchar(200)
+			,@Description nvarchar(max)
+			,@Logo nvarchar(255)
+			,@CreatedById int
+		
+
+AS
+
+/*---------TEST CODE---------
+
+	DECLARE @Id int = 0;
+	DECLARE	@GroupTypeId int = 1
+			,@Name nvarchar(200) = 'Test Organization'
+			,@Headline nvarchar(200) = 'We are the organization'
+			,@Description nvarchar(max) = 'We help people help people'
+			,@Logo nvarchar(200) ='Help People Help Themselves'		
+			,@CreatedById int = 2
+
+	EXECUTE dbo.Groups_Insert
+			 @Id OUTPUT
+			,@GroupTypeId 
+			,@Name
+			,@Headline
+			,@Description
+			,@Logo
+			,@CreatedById
+
+	SELECT *
+	FROM dbo.Groups
+
+*/---------TEST CODE---------
+
+BEGIN
+
+
+INSERT INTO [dbo].[Groups]
+           ([GroupTypeId]
+           ,[Name]
+           ,[Headline]
+           ,[Description]
+           ,[Logo]
+		   ,[CreatedById])
+
+     VALUES
+			(@GroupTypeId 
+			,@Name
+			,@Headline
+			,@Description
+			,@Logo
+			,@CreatedById) 
+
+	SET @Id = SCOPE_IDENTITY()
+
+END
