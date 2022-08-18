@@ -1,0 +1,70 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[Groups_Select_GroupType_Paginated]    Script Date: 8/17/2022 10:48:24 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Ethan Luu
+-- Create date: 11 July 2022
+-- Description:	Select All Group By Group Type Paginated for Groups table 
+-- Code Reviewer: Marlon Nunez
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: 
+-- Note:
+
+---Truncate table dbo.Groups
+
+
+-- =============================================
+
+ALTER PROC [dbo].[Groups_Select_GroupType_Paginated]
+	@GroupTypeName nvarchar(50),
+	@pageIndex int,
+	@pageSize int
+
+AS
+
+/*
+	DECLARE @GroupTypeName nvarchar(50) = 'College',
+		    @pageIndex int = 0,
+			@pageSize int = 5
+
+	EXECUTE dbo.Groups_Select_GroupType_Paginated @GroupTypeName,
+												  @pageIndex,
+												  @pageSize
+
+*/
+
+BEGIN
+	Declare @Offset int = @pageIndex * @pageSize 									
+
+	SELECT g.[Id]
+		  ,g.[Name]
+		  ,[Headline]
+		  ,[Description]
+		  ,[Logo]
+		  ,[CreatedById]
+		  ,[DateCreated]
+		  ,[DateModified] 
+		  ,gt.[Id] as GroupTypeId
+		  ,gt.[Name] as GroupTypeName
+		  ,TotalCount = COUNT(1) OVER()
+
+	FROM [dbo].[Groups] as g 
+		INNER JOIN dbo.GroupTypes as gt
+		ON g.GroupTypeId = gt.Id
+		
+		INNER JOIN dbo.Users as u 
+		on g.CreatedById = u.Id
+		WHERE gt.[Name] = @GroupTypeName
+
+		order by g.Id desc
+
+		OFFSET @offSet Rows
+		Fetch Next @pageSize Rows ONLY
+
+END
