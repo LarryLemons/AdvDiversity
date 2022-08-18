@@ -1,4 +1,10 @@
-    public interface IGroupService
+using Sabio.Models;
+using Sabio.Models.Domain;
+using Sabio.Models.Domain.Groups;
+using Sabio.Models.Requests.Groups;
+
+namespace Sabio.Services.Interfaces
+   public interface IGroupService
     {
         Paged<Group> GetAllPaginated(int pageIndex, int pageSize);
         void Update(GroupUpdateRequest model, int userId);
