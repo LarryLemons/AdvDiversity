@@ -1,0 +1,14 @@
+    public interface IGroupService
+    {
+        Paged<Group> GetAllPaginated(int pageIndex, int pageSize);
+        void Update(GroupUpdateRequest model, int userId);
+        int Add(GroupAddRequest model, int userId);
+        Group GetById(int id, int userId);
+        void Delete(int id, int userId);
+        Paged<Group> GetByCreatedBy(int pageIndex, int pageSize, int createdById);
+        Paged<Group> GetAllByGroupTypeNamePaginated(string groupTypeName, int pageIndex, int pageSize);
+        int JoinGroup(AddGroupMember model, int userId);
+        GroupMember SelectJoinTotalCount(int groupId);
+        void DeleteJoin(int userId, int groupId);
+    }
+}
