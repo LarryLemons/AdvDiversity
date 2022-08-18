@@ -1,0 +1,62 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[GroupTypes_SelectAll_Paginated]    Script Date: 8/17/2022 10:55:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		Larry Lemons
+-- Create date: 2 July 2022
+-- Description:	SelectedAll for GroupTypes table 
+-- Code Reviewer: Guido Greco 
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: 
+-- Note:
+
+---Truncate table dbo.Groups
+
+
+-- =============================================
+
+ALTER   PROC [dbo].[GroupTypes_SelectAll_Paginated] 
+									@PageIndex int
+									,@PageSize int
+
+as
+
+/*
+
+Declare @PageIndex int = 0
+        ,@PageSize int = 10
+
+
+Execute [dbo].[GroupTypes_SelectAll_Paginated] 
+							  		@PageIndex
+								   ,@PageSize	
+*/
+
+BEGIN
+
+Declare @offset int = @pageIndex * @pageSize 									
+
+SELECT [Id]   
+      ,[Name]
+	    ,TotalCount = COUNT(1) OVER()
+
+FROM [dbo].[GroupTypes] 
+
+
+
+order by Id
+
+	OFFSET @offSet Rows
+	Fetch Next @pageSize Rows ONLY
+
+END
+
+
+
