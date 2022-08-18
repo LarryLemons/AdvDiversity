@@ -1,0 +1,77 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[Groups_Select_Createdby_Paginated]    Script Date: 8/17/2022 10:46:19 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Larry Lemons
+-- Create date: 2 July 2022
+-- Description:	Select by Created By for Groups table 
+-- Code Reviewer: Guido Greco
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: Axl Nunez
+-- Note:
+
+---Truncate table dbo.Groups
+
+
+-- =============================================
+
+ALTER   PROC [dbo].[Groups_Select_Createdby_Paginated] 
+									 @CreatedBy int 
+									,@PageIndex int
+									,@PageSize int
+								
+
+as
+
+/*
+        
+Declare  @CreatedBy int = 106
+	    	,@PageIndex int = 0
+        ,@PageSize int = 3
+		
+
+
+Execute dbo.Groups_Select_Createdby_Paginated
+                                    @CreatedBy
+								   ,@PageIndex
+								   ,@PageSize
+Select * from dbo.Groups
+*/
+
+BEGIN
+
+Declare @offset int = @pageIndex * @pageSize 									
+
+SELECT g.[Id]
+      ,g.[Name]
+      ,[Headline]
+      ,[Description]
+      ,[Logo]
+	    ,[CreatedById]
+      ,[DateCreated]
+      ,[DateModified]
+      ,gt.[Id] as GroupTypeId
+      ,gt.[Name] as GroupTypeName
+      ,TotalCount = COUNT(1) OVER()
+
+FROM [dbo].[Groups] as g
+
+inner join dbo.GroupTypes as gt 
+on g.GroupTypeId = gt.Id
+
+inner join dbo.Users as u 
+on g.CreatedById = u.Id
+where @CreatedBy = u.Id
+
+order by g.Id
+
+	OFFSET @offSet Rows
+	Fetch Next @pageSize Rows ONLY
+
+END
