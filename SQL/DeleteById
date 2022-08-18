@@ -1,0 +1,63 @@
+USE [AdvDiversity]
+GO
+/****** Object:  StoredProcedure [dbo].[Groups_DeleteById]    Script Date: 8/17/2022 10:38:26 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- =============================================
+-- Author:		Larry Lemons
+-- Create date: 1 July 2022
+-- Description:	Delete by Id for Groups table 
+-- Code Reviewer: Guido Greco
+
+-- MODIFIED BY: Author
+-- MODIFIED DATE: Author
+-- Code Reviewer: Guido Greco
+-- Note:
+
+---Truncate table dbo.Groups
+
+
+-- =============================================
+-- =============================================
+ALTER PROC [dbo].[Groups_DeleteById]
+			@Id int
+		   ,@UserId int 
+
+AS
+
+/*
+
+			Declare @Id int = 53
+			,@UserId int = 106
+SELECT *
+FROM dbo.Groups 
+where @Id = Id 
+
+EXECUTE dbo.Groups_DeleteById @Id ,@UserId
+
+SELECT *
+FROM dbo.Groups 
+where @Id = Id 
+*/
+
+BEGIN
+	Declare @Count int = 0;
+
+	Select @Count = count(1)
+	From dbo.Groups
+	Where @Id = Id and @UserId = CreatedById
+
+	If (@Count > 0)
+	Begin
+		DELETE 
+		FROM [dbo].[Groups] 
+		WHERE  @Id = Id and @UserId = CreatedById
+	End
+
+	else 
+		THROW 70001, 'Not found', 1;
+	
+END
